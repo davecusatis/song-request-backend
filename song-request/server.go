@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/davecusatis/song-request-backend/song-request/api"
+	cors "github.com/heppu/simple-cors"
 	"goji.io"
 	"goji.io/pat"
 )
@@ -22,9 +23,7 @@ type Server struct {
 // NewServer returns a new instance of the doorman Server
 func NewServer(api *api.API) (*Server, error) {
 	mux := goji.NewMux()
-
-	// api routes and handler functions
-	mux.HandleFunc(pat.Get(apiBase), api.Ping)
+	mux.HandleFunc(pat.Post(apiBase+"/ping"), api.Ping)
 
 	return &Server{
 		Port: "3030",
@@ -35,5 +34,5 @@ func NewServer(api *api.API) (*Server, error) {
 // Start starts the webserver
 func (s *Server) Start() {
 	log.Printf("Starting server on port %s", s.Port)
-	log.Fatal(http.ListenAndServe("localhost:"+s.Port, s.Mux))
+	log.Fatal(http.ListenAndServe("localhost:"+s.Port, cors.CORS(s.Mux)))
 }

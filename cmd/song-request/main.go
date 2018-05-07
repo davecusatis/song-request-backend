@@ -3,12 +3,13 @@ package main
 import (
 	"log"
 
-	"github.com/davecusatis/doorman/doorman/api"
 	songrequest "github.com/davecusatis/song-request-backend/song-request"
+	"github.com/davecusatis/song-request-backend/song-request/api"
 )
 
 func main() {
-	api := api.NewAPI()
+	var s struct{}
+	api, err := api.NewAPI(&s)
 	server, err := songrequest.NewServer(api)
 	if err != nil {
 		log.Fatalf("Could not start server: %s", err)
