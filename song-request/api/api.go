@@ -1,8 +1,10 @@
 package api
 
+import "net/http"
+
 // API struct
 type API struct {
-	db *struct{}
+	twitchClient *http.Client
 }
 
 // NewAPI creates a new instance of an API
