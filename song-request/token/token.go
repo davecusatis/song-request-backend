@@ -10,7 +10,7 @@ import (
 	jwt "github.com/dgrijalva/jwt-go"
 )
 
-func ExtractTokenFromHeader(header http.Header) (*models.TokenData, error) {
+func ExtractAndValidateTokenFromHeader(header http.Header) (*models.TokenData, error) {
 	if authHeaders, ok := header["Authorization"]; ok {
 		for _, header := range authHeaders {
 			if strings.Contains(header, "Bearer") {
@@ -24,7 +24,6 @@ func ExtractTokenFromHeader(header http.Header) (*models.TokenData, error) {
 				}
 
 				if claims, ok := token.Claims.(*models.SRClaims); ok && token.Valid {
-					// fmt.Printf("Token: %v\n%v\n%v", claims, claims.ChannelID, claims.StandardClaims.ExpiresAt)
 					return &models.TokenData{
 						Token:     tokenStr,
 						UserID:    claims.UserID,

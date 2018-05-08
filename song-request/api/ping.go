@@ -12,11 +12,13 @@ import (
 // Ping is the health check endpoint
 func (a *API) Ping(w http.ResponseWriter, req *http.Request) {
 	// validate token
-	token, err := token.ExtractTokenFromHeader(req.Header)
+	token, err := token.ExtractAndValidateTokenFromHeader(req.Header)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("error %s", err)))
+		return
 	}
 
+	// update all clients with current state of the world (songlist + playlist)
 	util.SendPubsubBroadcastMessage(&models.SongRequestMessage{
 		MessageType: "playlistUpdated",
 		Data: []models.Song{{
@@ -27,6 +29,5 @@ func (a *API) Ping(w http.ResponseWriter, req *http.Request) {
 		}},
 	}, token)
 
-	// update all clients with current state of the world (songlist + playlist)
 	w.Write([]byte("OK"))
 }
