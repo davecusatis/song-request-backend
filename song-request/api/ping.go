@@ -6,7 +6,6 @@ import (
 
 	"github.com/davecusatis/song-request-backend/song-request/models"
 	"github.com/davecusatis/song-request-backend/song-request/token"
-	"github.com/davecusatis/song-request-backend/song-request/util"
 )
 
 // Ping is the health check endpoint
@@ -19,7 +18,7 @@ func (a *API) Ping(w http.ResponseWriter, req *http.Request) {
 	}
 
 	// update all clients with current state of the world (songlist + playlist)
-	util.SendPubsubBroadcastMessage(&models.SongRequestMessage{
+	a.Aggregator.MessageChan <- &models.SongRequestMessage{
 		MessageType: "playlistUpdated",
 		Data: []models.Song{{
 			Title:  "ttfaf",
@@ -27,7 +26,8 @@ func (a *API) Ping(w http.ResponseWriter, req *http.Request) {
 			Genre:  "bad",
 			Game:   "gh3",
 		}},
-	}, token)
+		Token: token,
+	}
 
 	w.Write([]byte("OK"))
 }

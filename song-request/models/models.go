@@ -18,6 +18,7 @@ type Song struct {
 }
 
 type SongRequestMessage struct {
+	Token       *TokenData
 	MessageType string `json:"type"`
 	Data        []Song `json:"data"`
 }

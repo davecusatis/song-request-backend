@@ -1,13 +1,19 @@
 package api
 
-import "net/http"
+import (
+	"github.com/davecusatis/song-request-backend/song-request/aggregator"
+)
 
 // API struct
 type API struct {
-	twitchClient *http.Client
+	Aggregator *aggregator.Aggregator
 }
 
 // NewAPI creates a new instance of an API
-func NewAPI(db *struct{}) (*API, error) {
-	return &API{}, nil
+func NewAPI() (*API, error) {
+	a := aggregator.NewAggregator()
+	a.Start()
+	return &API{
+		Aggregator: a,
+	}, nil
 }

@@ -8,8 +8,7 @@ import (
 )
 
 func main() {
-	var s struct{}
-	api, err := api.NewAPI(&s)
+	api, err := api.NewAPI()
 	server, err := songrequest.NewServer(api)
 	if err != nil {
 		log.Fatalf("Could not start server: %s", err)
