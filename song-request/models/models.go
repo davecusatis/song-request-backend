@@ -19,8 +19,8 @@ type Song struct {
 
 type SongRequestMessage struct {
 	Token       *TokenData
-	MessageType string `json:"type"`
-	Data        []Song `json:"data"`
+	MessageType string      `json:"type"`
+	Data        MessageData `json:"data"`
 }
 
 type TokenData struct {
@@ -35,4 +35,9 @@ type SRClaims struct {
 	ChannelID    string `json:"channel_id"`
 	Role         string `json:"role"`
 	jwt.StandardClaims
+}
+
+type MessageData struct {
+	Songlist []Song `json:"songlist,omitempty"`
+	Playlist []Song `json:"playlist,omitempty"`
 }

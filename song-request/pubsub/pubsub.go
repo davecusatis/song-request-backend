@@ -27,7 +27,7 @@ func newPubsubMessageRequest(token *models.TokenData, data []byte) *http.Request
 		bytes.NewReader(data))
 
 	r.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token.Token))
-	r.Header.Add("Client-Id", "")
+	r.Header.Add("Client-Id", "cm5nkhrq18yy02yy9tp108lx745vcx")
 	r.Header.Add("Content-Type", "application/json")
 	return r
 }
@@ -41,6 +41,7 @@ func (p *PubsubClient) SendPubsubBroadcastMessage(message *models.SongRequestMes
 		Targets:     []string{"broadcast"},
 	})
 
+	log.Printf("Message: %v", message)
 	req := newPubsubMessageRequest(message.Token, postData)
 	resp, err := p.Client.Do(req)
 	if err != nil {

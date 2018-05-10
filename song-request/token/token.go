@@ -15,7 +15,7 @@ func ExtractAndValidateTokenFromHeader(header http.Header) (*models.TokenData, e
 		for _, header := range authHeaders {
 			if strings.Contains(header, "Bearer") {
 				tokenStr := strings.Split(header, " ")[1]
-				secret, _ := base64.StdEncoding.DecodeString("")
+				secret, _ := base64.StdEncoding.DecodeString()
 				token, err := jwt.ParseWithClaims(tokenStr, &models.SRClaims{}, func(token *jwt.Token) (interface{}, error) {
 					return []byte(secret), nil
 				})

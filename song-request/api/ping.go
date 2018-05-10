@@ -17,17 +17,22 @@ func (a *API) Ping(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	// get state
+
 	// update all clients with current state of the world (songlist + playlist)
+	// a.Aggregator.MessageChan <- &models.SongRequestMessage{
+	// 	MessageType: "load",
+	// 	Data:        nil,
+	// 	Token:       token,
+	// }
+
 	a.Aggregator.MessageChan <- &models.SongRequestMessage{
-		MessageType: "playlistUpdated",
-		Data: []models.Song{{
-			Title:  "ttfaf",
-			Artist: "dragonforce",
-			Genre:  "bad",
-			Game:   "gh3",
-		}},
+		MessageType: "load",
+		Data: models.MessageData{
+			Playlist: models.TestPlaylist(),
+			Songlist: models.TestSonglist(),
+		},
 		Token: token,
 	}
-
 	w.Write([]byte("OK"))
 }
