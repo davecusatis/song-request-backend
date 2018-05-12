@@ -27,6 +27,7 @@ type TokenData struct {
 	Token     string
 	UserID    string
 	ChannelID string
+	Role      string
 }
 
 type SRClaims struct {

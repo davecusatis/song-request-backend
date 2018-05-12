@@ -28,6 +28,7 @@ func ExtractAndValidateTokenFromHeader(header http.Header) (*models.TokenData, e
 						Token:     tokenStr,
 						UserID:    claims.UserID,
 						ChannelID: claims.ChannelID,
+						Role:      claims.Role,
 					}, nil
 				}
 			}
