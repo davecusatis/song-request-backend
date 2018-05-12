@@ -1,11 +1,13 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 
+	"github.com/davecusatis/song-request-backend/song-request/models"
 	"github.com/davecusatis/song-request-backend/song-request/token"
 )
 
@@ -33,19 +35,25 @@ func (a *API) PostSonglist(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	log.Printf("body: %v", string(body))
-
+	var newSonglist []models.Song
+	err = json.Unmarshal(body, &newSonglist)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Error reading data"))
+		return
+	}
+	log.Printf("new songs: %v", newSonglist)
 	// verify songlist
 	// save songlist
 
 	// blast message to clients
-	// a.Aggregator.MessageChan <- &models.SongRequestMessage{
-	// 	MessageType: "songlistUpdated",
-	// 	Data: models.MessageData{
-	// 		Playlist: models.TestPlaylist(),
-	// 		Songlist: models.TestSonglist(),
-	// 	},
-	// 	Token: token,
-	// }
+	a.Aggregator.MessageChan <- &models.SongRequestMessage{
+		MessageType: "songlistUpdated",
+		Data: models.MessageData{
+			Playlist: models.TestPlaylist(),
+			Songlist: newSonglist,
+		},
+		Token: token,
+	}
 	w.Write([]byte("OK"))
 }
