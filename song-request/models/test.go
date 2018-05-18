@@ -2,7 +2,7 @@ package models
 
 // TestSonglist returns a bogus songlist for test purposes
 func TestSonglist() []Song {
-	return []Song{{
+	songs := []Song{{
 		Title:  "ttfaf",
 		Artist: "dragonforce",
 		Genre:  "bad",
@@ -18,6 +18,7 @@ func TestSonglist() []Song {
 		Genre:  "bad",
 		Game:   "gh3 dlc",
 	}}
+	return songs
 }
 
 // TestPlaylist returns a bogus playlist for test purposes
@@ -27,5 +28,20 @@ func TestPlaylist() []Song {
 		Artist: "dragonforce",
 		Genre:  "bad",
 		Game:   "gh3",
+	}, {
+		Title:  "ogap",
+		Artist: "dragonforce",
+		Genre:  "bad",
+		Game:   "gh3 dlc",
+	}}
+}
+
+// TestSkipPlaylist returns a bogus playlist for test purposes
+func TestSkipPlaylist() []Song {
+	return []Song{{
+		Title:  "ogap",
+		Artist: "dragonforce",
+		Genre:  "bad",
+		Game:   "gh3 dlc",
 	}}
 }

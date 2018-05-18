@@ -24,7 +24,12 @@ type Server struct {
 func NewServer(api *api.API) (*Server, error) {
 	mux := goji.NewMux()
 	mux.HandleFunc(pat.Post(apiBase+"/ping"), api.Ping)
+
+	// playlist handlers
 	mux.HandleFunc(pat.Get(apiBase+"/playlist"), api.GetPlaylist)
+	mux.HandleFunc(pat.Post(apiBase+"/playlist/skip"), api.SkipSong)
+
+	// songlist handlers
 	mux.HandleFunc(pat.Get(apiBase+"/songlist"), api.GetSonglist)
 	mux.HandleFunc(pat.Post(apiBase+"/songlist"), api.PostSonglist)
 

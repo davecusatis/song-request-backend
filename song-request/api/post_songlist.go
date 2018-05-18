@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/davecusatis/song-request-backend/song-request/models"
@@ -42,7 +41,6 @@ func (a *API) PostSonglist(w http.ResponseWriter, req *http.Request) {
 		w.Write([]byte("Error reading data"))
 		return
 	}
-	log.Printf("new songs: %v", newSonglist)
 	// verify songlist
 	// save songlist
 

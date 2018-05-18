@@ -41,7 +41,6 @@ func (p *PubsubClient) SendPubsubBroadcastMessage(message *models.SongRequestMes
 		Targets:     []string{"broadcast"},
 	})
 
-	log.Printf("Message: %v", message)
 	req := newPubsubMessageRequest(message.Token, postData)
 	resp, err := p.Client.Do(req)
 	if err != nil {
@@ -50,7 +49,7 @@ func (p *PubsubClient) SendPubsubBroadcastMessage(message *models.SongRequestMes
 		return e
 	}
 	if resp.StatusCode != http.StatusNoContent {
-		e := fmt.Errorf("Error from twitch API: expected 204 got %d", resp.StatusCode)
+		e := fmt.Errorf("Error from twitch API: expected 204 got %d, %s", resp.StatusCode, resp.Status)
 		log.Println(e)
 		return e
 	}
