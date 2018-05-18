@@ -1,15 +1,17 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 
 	"github.com/davecusatis/song-request-backend/song-request/models"
 	"github.com/davecusatis/song-request-backend/song-request/token"
 )
 
-// SkipSong is how broadcasters skips the current song
-func (a *API) SkipSong(w http.ResponseWriter, req *http.Request) {
+// DeleteSong deletes a song
+func (a *API) DeleteSong(w http.ResponseWriter, req *http.Request) {
 	// validate token
 	token, err := token.ExtractAndValidateTokenFromHeader(req.Header)
 	if err != nil {
@@ -20,6 +22,22 @@ func (a *API) SkipSong(w http.ResponseWriter, req *http.Request) {
 	if token.Role != "broadcaster" {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte("Unauthorized: not broadcaster"))
+		return
+	}
+
+	defer req.Body.Close()
+	body, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Error reading data"))
+		return
+	}
+
+	var songToDelete models.Song
+	err = json.Unmarshal(body, &songToDelete)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("Error reading data"))
 		return
 	}
 

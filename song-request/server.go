@@ -27,6 +27,7 @@ func NewServer(api *api.API) (*Server, error) {
 
 	// playlist handlers
 	mux.HandleFunc(pat.Get(apiBase+"/playlist"), api.GetPlaylist)
+	mux.HandleFunc(pat.Delete(apiBase+"/playlist"), api.DeleteSong)
 	mux.HandleFunc(pat.Post(apiBase+"/playlist/skip"), api.SkipSong)
 
 	// songlist handlers
