@@ -36,7 +36,3 @@ func ExtractAndValidateTokenFromHeader(header http.Header) (*models.TokenData, e
 	}
 	return nil, fmt.Errorf("Unable to get token")
 }
-
-func ValidateToken(token string) bool {
-	return true
-}
