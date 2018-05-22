@@ -47,7 +47,7 @@ func (a *API) PostSonglist(w http.ResponseWriter, req *http.Request) {
 	}
 	// verify songlist
 	// save songlist
-	err = saveSonglist(a.S3Uploader, token.UserID, newSonglist)
+	err = saveSonglist(a.S3Uploader, token.ChannelID, newSonglist)
 	if err != nil {
 		log.Printf("error uploading file %s", err)
 		w.WriteHeader(http.StatusInternalServerError)
@@ -67,8 +67,8 @@ func (a *API) PostSonglist(w http.ResponseWriter, req *http.Request) {
 	w.Write([]byte("OK"))
 }
 
-func saveSonglist(s *s3manager.Uploader, userID string, songlist []models.Song) error {
-	userFilename := fmt.Sprintf("%s.txt", userID)
+func saveSonglist(s *s3manager.Uploader, channelID string, songlist []models.Song) error {
+	userFilename := fmt.Sprintf("%s.txt", channelID)
 	f, err := os.Create(userFilename)
 	defer os.Remove(userFilename)
 
