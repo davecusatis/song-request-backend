@@ -55,15 +55,7 @@ func (a *API) PostSonglist(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	// blast message to clients
-	// a.Aggregator.MessageChan <- &models.SongRequestMessage{
-	// 	MessageType: "songlistUpdated",
-	// 	Data:        models.MessageData{
-	// 	// Songlist: newSonglist,
-	// 	},
-	// 	Token: token,
-	// }
-
+	// invalidate cloudfront
 	w.Write([]byte("OK"))
 }
 
