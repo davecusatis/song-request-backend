@@ -10,8 +10,8 @@ import (
 	"github.com/davecusatis/song-request-backend/song-request/token"
 )
 
-// DeleteSong deletes a song
-func (a *API) DeleteSong(w http.ResponseWriter, req *http.Request) {
+// AddSong deletes a song
+func (a *API) AddSong(w http.ResponseWriter, req *http.Request) {
 	// validate token
 	token, err := token.ExtractAndValidateTokenFromHeader(req.Header)
 	if err != nil {
