@@ -24,7 +24,7 @@ func (a *API) GetPlaylist(w http.ResponseWriter, req *http.Request) {
 	a.Aggregator.MessageChan <- &models.SongRequestMessage{
 		MessageType: "playlistUpdated",
 		Data: models.MessageData{
-			Playlist: models.TestPlaylist(),
+			Playlist: a.Datasource.Playlist,
 		},
 		Token: token,
 	}
