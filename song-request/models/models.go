@@ -11,10 +11,11 @@ type PostData struct {
 }
 
 type Song struct {
-	Title  string `json:"title"`
-	Artist string `json:"artist"`
-	Genre  string `json:"genre"`
-	Game   string `json:"game"`
+	Title       string `json:"title"`
+	Artist      string `json:"artist"`
+	Genre       string `json:"genre"`
+	Game        string `json:"game"`
+	RequestedBy string `json:"requestedBy,omitempty"`
 }
 
 type SongRequestMessage struct {

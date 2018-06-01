@@ -20,11 +20,12 @@ func (a *API) GetPlaylist(w http.ResponseWriter, req *http.Request) {
 
 	// hit db for playlist
 	// a.db.GetPlaylist()
+
 	// update all clients with current state of the world (songlist + playlist)
 	a.Aggregator.MessageChan <- &models.SongRequestMessage{
 		MessageType: "playlistUpdated",
 		Data: models.MessageData{
-			Playlist: a.Datasource.Playlist,
+			Playlist: parsePlaylistSongs(a.Datasource.Playlist),
 		},
 		Token: token,
 	}

@@ -41,12 +41,14 @@ func (a *API) DeleteSong(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	a.Datasource.RemoveSongFromPlaylist(songToDelete)
+
 	// hit db for playlist
 	// a.db.GetPlaylist()
 	a.Aggregator.MessageChan <- &models.SongRequestMessage{
 		MessageType: "playlistUpdated",
 		Data: models.MessageData{
-			Playlist: models.TestSkipPlaylist(),
+			Playlist: parsePlaylistSongs(a.Datasource.Playlist),
 		},
 		Token: token,
 	}

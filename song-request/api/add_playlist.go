@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 
 	"github.com/davecusatis/song-request-backend/song-request/models"
@@ -35,15 +36,27 @@ func (a *API) AddSong(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	songToAdd.RequestedBy = token.ChannelID
+	log.Printf("Song to add %#v", songToAdd)
 	a.Datasource.AddSongToPlaylist(songToAdd)
+	log.Printf("Playlist: %#v", a.Datasource.Playlist)
 	// hit db for playlist
 	// a.db.GetPlaylist()
 	a.Aggregator.MessageChan <- &models.SongRequestMessage{
 		MessageType: "playlistUpdated",
 		Data: models.MessageData{
-			Playlist: a.Datasource.Playlist,
+			Playlist: parsePlaylistSongs(a.Datasource.Playlist),
 		},
 		Token: token,
 	}
+
 	w.Write([]byte("OK"))
+}
+
+func parsePlaylistSongs(playlist map[int]models.Song) []models.Song {
+	ret := make([]models.Song, len(playlist))
+	for i := 0; i < len(playlist); i++ {
+		ret[i] = playlist[i]
+	}
+	return ret
 }
