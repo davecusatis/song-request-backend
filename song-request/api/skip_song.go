@@ -28,7 +28,7 @@ func (a *API) SkipSong(w http.ResponseWriter, req *http.Request) {
 	a.Aggregator.MessageChan <- &models.SongRequestMessage{
 		MessageType: "playlistUpdated",
 		Data: models.MessageData{
-			Playlist: models.TestSkipPlaylist(),
+			Playlist: parsePlaylistSongs(a.Datasource.Playlist),
 		},
 		Token: token,
 	}
