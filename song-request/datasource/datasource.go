@@ -1,8 +1,6 @@
 package datasource
 
 import (
-	"log"
-
 	"github.com/davecusatis/song-request-backend/song-request/models"
 )
 
@@ -35,13 +33,10 @@ func (d *Datasource) RemoveSongFromPlaylist(song models.Song) {
 	index := -1
 	for i, s := range d.Playlist {
 		if song.Artist == s.Artist && song.Title == s.Title {
-			log.Printf("SOng: %#v, index: %d", s, i)
 			index = i
 		}
 	}
 	if index > -1 {
 		delete(d.Playlist, index)
 	}
-
-	log.Printf("PLAYLIS: %#v", d.Playlist)
 }
