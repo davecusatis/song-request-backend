@@ -23,6 +23,10 @@ func (a *API) SkipSong(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	if len(a.Datasource.Playlist) > 0 {
+		a.Datasource.RemoveSongFromPlaylist(a.Datasource.Playlist[0])
+	}
+
 	// hit db for playlist
 	// a.db.GetPlaylist()
 	a.Aggregator.MessageChan <- &models.SongRequestMessage{
