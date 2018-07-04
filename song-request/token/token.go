@@ -41,7 +41,7 @@ func ExtractAndValidateTokenFromHeader(header http.Header) (*models.TokenData, e
 	return nil, fmt.Errorf("Unable to get token")
 }
 
-func CreateServerToken(data *models.TokenData) string {
+func CreateServerToken(data *models.TokenData) *models.TokenData {
 	claims := models.SRClaims{
 		UserID:    data.UserID,
 		ChannelID: data.ChannelID,
@@ -55,7 +55,12 @@ func CreateServerToken(data *models.TokenData) string {
 	ss, err := token.SignedString(secret)
 	if err != nil {
 		log.Printf("Error signing token: %s", err)
-		return ""
+		return nil
 	}
-	return ss
+	return &models.TokenData{
+		UserID:    data.UserID,
+		ChannelID: data.ChannelID,
+		Role:      "external",
+		Token:     ss,
+	}
 }

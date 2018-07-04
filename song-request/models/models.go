@@ -25,10 +25,11 @@ type SongRequestMessage struct {
 }
 
 type TokenData struct {
-	Token     string
-	UserID    string
-	ChannelID string
-	Role      string
+	Token       string
+	UserID      string
+	ChannelID   string
+	Role        string
+	PubsubPerms PubsubPerms `json:"pubsub_perms"`
 }
 
 type PubsubPerms struct {
