@@ -22,6 +22,7 @@ func NewPubsubClient(client *http.Client) *PubsubClient {
 }
 
 func newPubsubMessageRequest(token *models.TokenData, data []byte) *http.Request {
+	log.Printf("TOKEN WHEN SENDING MSG", token.Token)
 	r, _ := http.NewRequest("POST",
 		fmt.Sprintf("https://api.twitch.tv/extensions/message/%s", token.ChannelID),
 		bytes.NewReader(data))

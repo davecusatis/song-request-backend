@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/davecusatis/song-request-backend/song-request/models"
 	jwt "github.com/dgrijalva/jwt-go"
@@ -42,12 +43,18 @@ func ExtractAndValidateTokenFromHeader(header http.Header) (*models.TokenData, e
 }
 
 func CreateServerToken(data *models.TokenData) *models.TokenData {
+	exp := time.Now().UTC().Add(time.Minute * time.Duration(5)).Second()
 	claims := models.SRClaims{
-		UserID:    data.UserID,
-		ChannelID: data.ChannelID,
-		Role:      "external",
+		OpaqueUserID: data.OpaqueUserID,
+		UserID:       data.UserID,
+		ChannelID:    data.ChannelID,
+		Role:         "external",
 		PubsubPerms: models.PubsubPerms{
-			Send: []string{"*"},
+			Send:   []string{"*"},
+			Listen: []string{"*"},
+		},
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: int64(exp),
 		},
 	}
 	secret, _ := base64.StdEncoding.DecodeString(secret)
