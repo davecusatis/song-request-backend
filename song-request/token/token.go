@@ -43,7 +43,7 @@ func ExtractAndValidateTokenFromHeader(header http.Header) (*models.TokenData, e
 }
 
 func CreateServerToken(data *models.TokenData) *models.TokenData {
-	exp := time.Now().UTC().Add(time.Minute * time.Duration(5)).Second()
+	exp := (time.Now().UnixNano() + 600) / int64(time.Millisecond)
 	claims := models.SRClaims{
 		OpaqueUserID: data.OpaqueUserID,
 		UserID:       data.UserID,
