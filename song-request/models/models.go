@@ -31,11 +31,16 @@ type TokenData struct {
 	Role      string
 }
 
+type PubsubPerms struct {
+	Send   []string `json:"send"`
+	Listen []string `json:"listen"`
+}
 type SRClaims struct {
-	OpaqueUserID string `json:"opaque_user_id"`
-	UserID       string `json:"user_id"`
-	ChannelID    string `json:"channel_id"`
-	Role         string `json:"role"`
+	OpaqueUserID string      `json:"opaque_user_id"`
+	UserID       string      `json:"user_id"`
+	ChannelID    string      `json:"channel_id"`
+	Role         string      `json:"role"`
+	PubsubPerms  PubsubPerms `json:"pubsub_perms"`
 	jwt.StandardClaims
 }
 
