@@ -11,7 +11,7 @@ import (
 // Ping is the health check endpoint
 func (a *API) Ping(w http.ResponseWriter, req *http.Request) {
 	// validate token
-	token, err := token.ExtractAndValidateTokenFromHeader(req.Header)
+	tok, err := token.ExtractAndValidateTokenFromHeader(req.Header)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("error %s", err)))
 		return
@@ -32,7 +32,7 @@ func (a *API) Ping(w http.ResponseWriter, req *http.Request) {
 			Playlist: models.TestPlaylist(),
 			Songlist: models.TestSonglist(),
 		},
-		Token: token,
+		Token: token.CreateServerToken(tok),
 	}
 	w.Write([]byte("OK"))
 }

@@ -13,13 +13,13 @@ import (
 // DeleteSong deletes a song
 func (a *API) DeleteSong(w http.ResponseWriter, req *http.Request) {
 	// validate token
-	token, err := token.ExtractAndValidateTokenFromHeader(req.Header)
+	tok, err := token.ExtractAndValidateTokenFromHeader(req.Header)
 	if err != nil {
 		w.Write([]byte(fmt.Sprintf("error getting token %s", err)))
 		return
 	}
 
-	if token.Role != "broadcaster" {
+	if tok.Role != "broadcaster" {
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Write([]byte("Unauthorized: not broadcaster"))
 		return
@@ -50,7 +50,7 @@ func (a *API) DeleteSong(w http.ResponseWriter, req *http.Request) {
 		Data: models.MessageData{
 			Playlist: parsePlaylistSongs(a.Datasource.Playlist),
 		},
-		Token: token,
+		Token: token.CreateServerToken(tok),
 	}
 	w.Write([]byte("OK"))
 }
