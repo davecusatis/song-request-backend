@@ -44,5 +44,5 @@ func NewServer(api *api.API) (*Server, error) {
 // Start starts the webserver
 func (s *Server) Start() {
 	log.Printf("Starting server on port %s", s.Port)
-	log.Fatal(http.ListenAndServe("localhost:"+s.Port, cors.CORS(s.Mux)))
+	log.Fatal(http.ListenAndServe(":"+s.Port, cors.CORS(s.Mux)))
 }
