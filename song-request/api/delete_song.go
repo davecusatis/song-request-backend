@@ -48,7 +48,7 @@ func (a *API) DeleteSong(w http.ResponseWriter, req *http.Request) {
 	a.Aggregator.MessageChan <- &models.SongRequestMessage{
 		MessageType: "playlistUpdated",
 		Data: models.MessageData{
-			Playlist: parsePlaylistSongs(a.Datasource.Playlist),
+			Playlist: a.Datasource.Playlist,
 		},
 		Token: token.CreateServerToken(tok),
 	}
