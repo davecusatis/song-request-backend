@@ -57,5 +57,5 @@ type TwitchUserData struct {
 	DisplayName string `json:"display_name"`
 }
 type TwitchUserResponse struct {
-	Data TwitchUserData `json:"data"`
+	Data []TwitchUserData `json:"data"`
 }

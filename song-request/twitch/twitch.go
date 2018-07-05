@@ -3,6 +3,7 @@ package twitch
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -32,8 +33,15 @@ func (c *TwitchClient) GetLogin(userID string) string {
 	}
 	defer resp.Body.Close()
 
-	var respBody models.TwitchUserResponse
-	json.NewDecoder(r.Body).Decode(&respBody)
+	respBody := new(models.TwitchUserResponse)
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("Error reading response body")
+	}
+	err = json.Unmarshal(body, &respBody)
+	if err != nil {
+		log.Printf("Error parsing data from twitch")
+	}
 
-	return respBody.Data.DisplayName
+	return respBody.Data[0].DisplayName
 }
