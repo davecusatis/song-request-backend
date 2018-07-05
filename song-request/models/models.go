@@ -50,3 +50,12 @@ type MessageData struct {
 	Songlist []Song `json:"songlist,omitempty"`
 	Playlist []Song `json:"playlist,omitempty"`
 }
+
+type TwitchUserData struct {
+	ID          string `json:"id"`
+	Login       string `json:"login"`
+	DisplayName string `json:"display_name"`
+}
+type TwitchUserResponse struct {
+	Data TwitchUserData `json:"data"`
+}

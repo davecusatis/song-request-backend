@@ -35,7 +35,7 @@ func (a *API) AddSong(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	songToAdd.RequestedBy = tok.UserID
+	songToAdd.RequestedBy = a.TwitchClient.GetLogin(tok.UserID)
 	a.Datasource.AddSongToPlaylist(songToAdd)
 	// hit db for playlist
 	// a.db.GetPlaylist()
